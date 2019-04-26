@@ -19,6 +19,9 @@ security:
         main:
             anonymous: true
             provider: user
+            logout:
+                path:   /logout
+                target: /
             guard:
                 authenticator:
                     App\Security\LoginFormAuthenticator
@@ -42,7 +45,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # потребовать ROLE_ADMIN для /admin*
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/, roles: ROLE_USER }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # потребовать ROLE_ADMIN для /admin*
+        - { path: ^/admin/register, roles: ROLE_ADMIN }
+        - { path: ^/admin/register, roles: ROLE_ADMIN && ROLE_MANAGER}
+        # - { path: ^/, roles: ROLE_USER }
+

@@ -19,6 +19,8 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
+
+
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
@@ -53,6 +55,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             Security::LAST_USERNAME,
             $credentials['email']
         );
+
+        $token = $request->request->get('_csrf_token');
+        if (false === $this->csrfTokenManager->isTokenValid(new CsrfToken('authenticate', $token))) {
+            throw new InvalidCsrfTokenException('Invalid CSRF token.');
+        }
 
         return $credentials;
     }

@@ -1,0 +1,30 @@
+
+.login_generate {
+    width: 450px;
+    height: 432px;
+    background: #9f9f9f;
+    z-index: 100;
+    padding: 25px 25px 25px 25px;
+    position: absolute;
+    top: 100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: none;
+}
+
+.login_generate.active{
+    display: block;
+}
+
+
+.bg_login{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background: rgba(0,0,0, .7);
+    display: none;
+}
