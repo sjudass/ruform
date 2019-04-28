@@ -61,10 +61,10 @@ class User implements UserInterface
      */
     private $middlename;
 
-    public function __construct()
+/*    public function __construct()
     {
         $this->roles = array('ROLE_OPERATOR');
-    }
+    }*/
 
     public function getId()
     {
