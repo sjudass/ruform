@@ -1,3 +1,6 @@
 language: php
-php:
-  - '7.1'
+deploy:
+  provider: heroku
+  api_key:
+    secure: "fe725629-7db6-484d-bcae-13bf55cb537c"
+  on: production
