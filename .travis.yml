@@ -1,4 +1,7 @@
 language: php
+php:
+  - 7.1.23
+  - php-cgi
 install: composer install
 deploy:
   provider: heroku

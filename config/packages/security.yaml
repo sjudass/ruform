@@ -18,6 +18,7 @@ security:
         main:
             anonymous: true
             provider: user
+
             logout:
                 path:   /logout
                 target: /
