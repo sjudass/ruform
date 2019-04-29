@@ -40,9 +40,6 @@ $(document).ready(function () {
                     alert('Ошибка авторизации');
                 }
             }
-        })/*.done(function (data) {
-            $('.nav').html(data);
-            $('form').html(data);
-        })*/;
+        });
     });
 });
