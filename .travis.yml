@@ -10,8 +10,8 @@ deploy:
   on: production
 
 before_install:
-  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
   - composer self-update
 
 install:
   - composer install
+  - composer update
