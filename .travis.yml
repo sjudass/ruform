@@ -1,6 +1,6 @@
 language: php
 php:
-  - HHVM
+  - hhvm
 sudo: false
 
 deploy:
