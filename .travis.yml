@@ -7,26 +7,6 @@ deploy:
     secure: "fe725629-7db6-484d-bcae-13bf55cb537c"
   on: production
 
-cache:
-  directories:
-    - $HOME/.composer/cache/files
-    - ./bin/.phpunit
-
-env:
-  global:
-    - SYMFONY_PHPUNIT_DIR=./bin/.phpunit
-    - SYMFONY_DEPRECATIONS_HELPER=29
-
-matrix:
-  fast_finish: true
-  include:
-    - php: 7.1.18
-    - php: 7.2
-    - php: 7.3
-    - php: nightly
-  allow_failures:
-    - php: nightly
-
 before_install:
   - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
   - composer self-update
