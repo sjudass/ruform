@@ -22,8 +22,7 @@ $(document).ready(function () {
             url: "/login",
             data:
                 $(this).serialize(),
-            cache: false,
-            processData: false,
+            async: true,
             success: function (result){
                 if (result){
                     $('form').html(result);
