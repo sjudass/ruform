@@ -24,7 +24,7 @@ security:
                 target: /
             guard:
                 authenticator:
-                    - app.security.login_form_authenticator
+                   - App\Security\LoginFormAuthenticator
 #            http_basic:
 #            remember_me:
 #                secret:   '%kernel.secret%'
