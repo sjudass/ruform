@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Онлайн консультант{% endblock %}
+
+{% block content %}
+    <div class="consult">
+        <div class="col-md-3 dialog_list" id="dialog_list">
+            <div class="search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <input type="text" name="search" id="search" class="form-control" autocomplete="off" placeholder="Поиск">
+            </div>
+            {% include 'main/dialog_list.html.twig' %}
+        </div>
+        <div class="col-md-9 dialog_consult" id="dialog_consult">
+            {% if current_dialog is defined %}
+                <nobr><h3 class="dialog_title" id="dialog_title" title="{{ current_dialog.getTitle() }}">{{ current_dialog.getTitle() }}</h3></nobr>
+                <hr class="hr_top">
+                <div class="hide_scrollbar">
+                    <div class="consult_dialog" id="consult_dialog">
+                        {% include 'main/dialog_messages.html.twig' %}
+                    </div>
+                </div>
+                <hr class="hr_bottom">
+                <form method="post" id="consult_form" action="/consult/{{ current_dialog.getId() }}">
+                    <div class="dialog_post">
+                        <input type="text" name="message" id="inputMessage" class="form-control" placeholder="Введите сообщение" required autofocus>
+                        <button class="btn btn-outline-primary" id="sendConsultMessage" type="submit">
+                            Отправить
+                        </button>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+

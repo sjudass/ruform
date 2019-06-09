@@ -14,16 +14,16 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
-        // get the login error if there is one
+        /*Авторизация сотрудника в системе*/
+        // Получение ошибки при авторизации
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
+        // получение последнего введеного пользователем логина
         $lastUsername = $authenticationUtils->getLastUsername();
 
         $loginForm = $this->renderView('Security/login.html.twig',[
             'last_username' => $lastUsername,
             'error' => $error
         ]);
-
         return new Response($loginForm);
     }
 
@@ -32,6 +32,7 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
+        /*Выход пользователя из системы*/
         return $this->redirectToRoute("homepage");
     }
 }

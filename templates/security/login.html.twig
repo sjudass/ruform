@@ -1,20 +1,27 @@
-
-    <form method="post" action="/login">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputEmail" class="sr-only">Email</label>
+<form method="post" action="/login" id="login_form">
+    <h1>Авторизация</h1>
+    <div class="input-group input-group-lg">
+            <span class="input-group-addon">
+                <i class="fa fa-envelope"></i>
+            </span>
         <input type="email" value="{% if last_username is defined%} {{  last_username }} {% endif %}" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
-        <label for="inputPassword" class="sr-only">Пароль</label>
+    </div>
+    <div class="input-group input-group-lg">
+             <span class="input-group-addon">
+                <i class="fa fa-lock"></i>
+             </span>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Пароль" required>
+    </div>
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
 
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
+    <button class="btn btn-outline-primary" type="submit">
+        Войти
+    </button>
+    {% if (error is defined) and (error != null) %}
+        <div class="alert alert-danger" id="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+</form>
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-        {% if (error is defined) and (error != null) %}
-            <div class="alert alert-danger" id="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-    </form>
 

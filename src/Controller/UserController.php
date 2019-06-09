@@ -21,6 +21,7 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
+        /*Отображение списка сотрудников*/
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
@@ -31,6 +32,7 @@ class UserController extends AbstractController
      */
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        /*Добавление нового сотрудника*/
         //Создание формы
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -61,6 +63,7 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
+        /*Отображение информации выбранного сотрудника*/
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
@@ -69,19 +72,26 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        /*Редактирование данных выбранного сотрудника*/
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            //Шифрование пароля
+            $password = $passwordEncoder->encodePassword($user,$user->getPlainPassword());
+            $user->setPassword($password);
+
+            //Сохранение пользователя
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             return $this->redirectToRoute('user_index', [
                 'id' => $user->getId(),
             ]);
         }
-
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
@@ -93,12 +103,12 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
+        /*Удаление выбранного сотрудника*/
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('user_index');
     }
 }

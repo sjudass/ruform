@@ -1,16 +1,14 @@
 security:
+    #Выбор алгоритма шифрования
     encoders:
         App\Entity\User:
             algorithm: bcrypt
-
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
         user:
             entity:
                 class: App\Entity\User
                 property: email
-        # used to reload user from session & other features (e.g. switch_user)
+    #Параметры защиты
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -18,37 +16,22 @@ security:
         main:
             anonymous: true
             provider: user
-
             logout:
                 path:   /logout
                 target: /
             guard:
                 authenticator:
                    - app.security.login_form_authenticator
-
-#            http_basic:
-#            remember_me:
-#                secret:   '%kernel.secret%'
-#                lifetime: 604800 # 1 week in seconds
-#                path:     /
-                    # by default, the feature is enabled by checking a
-                    # checkbox in the login form (see below), uncomment the
-                    # following line to always enable it.
-                    #always_remember_me: true
-            # activate different ways to authenticate
-
-            # http_basic: true
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: true
-            # https://symfony.com/doc/current/security/form_login_setup.html
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+    #Иерархия ролей пользователей
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_OPERATOR, ROLE_MANAGER]
+    #Разграничение прав доступа
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # потребовать ROLE_ADMIN для /admin*
         - { path: ^/admin/users, roles: ROLE_ADMIN }
-        - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_MANAGER, ROLE_STMANAGER] }
-        # - { path: ^/, roles: ROLE_USER }
+        - { path: ^/admin/applications, roles: [ROLE_MANAGER] }
+        - { path: ^/admin/clients, roles: [ROLE_MANAGER] }
+        - { path: ^/admin, roles: [ROLE_ADMIN] }
+        - { path: ^/consult, roles: [ROLE_OPERATOR] }
+
 

@@ -1,0 +1,44 @@
+<h2>Оформление заявки</h2>
+<form method="post" id="service_form" action="/application">
+    <div class="row">
+        <div class="form-group col-sm-6 contact-form">
+            <label for="lastname">Фамилия</label>
+            <input type="text" name="lastname" class="form-control" id="lastname" placeholder="Введите фамилию" required>
+            <label for="firstname">Имя</label>
+            <input type="text" name="firstname" class="form-control" id="firstname" placeholder="Введите имя" required>
+            <label for="middlename">Отчество</label>
+            <input type="text" name="middlename" class="form-control" id="middlename" placeholder="Введите отчество">
+        </div>
+        <div class="form-group col-sm-6 contact-form">
+            <label for="email">Email</label>
+            <input type="email" name="email" class="form-control" id="email" placeholder="Введите адрес электронной почты" required>
+            <label for="phone">Телефон</label>
+            <input type="text" name="phone" class="form-control" id="phone" placeholder="Укажите номер телефона" required>
+            <label for="title">Услуга</label>
+            <select name="title" class="form-control" id="title">
+                <option>Развлекательное ТВ</option>
+                <option>Информационное ТВ</option>
+                <option>Матч</option>
+                <option>Кино и телевидение</option>
+                <option>Радио</option>
+                <option>Интернет</option>
+                <option>Спутниковое ТВ</option>
+                <option>Пресса</option>
+                <option>Реклама</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group contact-form">
+        <label for="message">Текст заявки</label>
+        <textarea id="content" name="content" class="form-control" rows="5" placeholder="Кратко укажите требования к услуге" required></textarea>
+    </div>
+    <div class="form-group submit">
+        <button type="submit" id="form-submit" class="btn btn-outline-primary">Отправить</button>
+        <div class="alert alert-success" id="alert-success">
+            Заявка отправлена. Ожидайте письмо на почте
+        </div>
+        <div class="alert alert-danger" id="alert-danger">
+            Не удалось зарегистрировать заявку
+        </div>
+    </div>
+</form>

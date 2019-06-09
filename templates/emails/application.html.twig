@@ -1,0 +1,11 @@
+<h3>Добрый день, {{ application.getClient().getLastname() }} {{ application.getClient().getFirstname() }} {{ application.getClient().getMiddlename() }}</h3>
+<p>{{ content }}<br><br><br><br>
+    С уважением, {{ application.getUser().getLastname() }} {{ application.getUser().getFirstname() }} {{ application.getUser().getMiddlename() }} -
+    {% if (application.getUser().getRoles[0] == "ROLE_ADMIN") %}
+        администратор
+    {% elseif (application.getUser().getRoles[0] == "ROLE_MANAGER") %}
+        менеджер
+    {% endif %}
+    компании ООО "РУФОРМ"
+</p>
+

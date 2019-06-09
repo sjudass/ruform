@@ -1,0 +1,53 @@
+{% extends 'client/index.html.twig' %}
+
+{% block title %}Клиент{% endblock %}
+
+{% block admin_content %}
+    <h3>Просмотр клиента № {{ client.id }}</h3>
+
+<div class="show-table">
+    <table class="table table-hover">
+        <tbody>
+            <tr>
+                <th>Фамилия</th>
+                <td>{{ client.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Имя</th>
+                <td>{{ client.firstname }}</td>
+            </tr>
+            {% if (client.middlename) %}
+                <tr>
+                    <th>Отчество</th>
+                    <td>{{ client.middlename }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <th>Электронная почта</th>
+                <td>{{ client.email }}</td>
+            </tr>
+            <tr>
+                <th>Номер телефона</th>
+                <td>{{ client.phone }}</td>
+            </tr>
+            <tr>
+                <th>Дата последнего обращения</th>
+                <td>{{ client.getDateApplication|date("d.m.Y в H:i") }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="show-buttons">
+    {% if (is_granted("ROLE_ADMIN")) %}
+        <a href="{{ path('clients_index') }}" class="btn btn-outline-primary">Назад к списку</a>
+        <a href="{{ path('application_client', {'id': client.id}) }}" class="btn btn-outline-primary">Заявки</a>
+        <form class="delete-form" method="post" action="{{ path('client_delete', {'id': client.id}) }}" onsubmit="return confirm('Вы действительно хотите удалить этого клиента?');">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ client.id) }}">
+            <button class="btn btn-outline-primary right">Удалить</button>
+        </form>
+    {% elseif (is_granted("ROLE_MANAGER")) %}
+        <a href="{{ path('application_client', {'id': client.id}) }}" class="btn btn-outline-primary">Заявки</a>
+    {% endif %}
+</div>
+{% endblock %}

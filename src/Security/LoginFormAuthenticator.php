@@ -74,7 +74,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
 
         if (!$user) {
-            // fail authentication with a custom error
+            // Ошибка аутентификации с выводом статуса ошибки
             throw new CustomUserMessageAuthenticationException('Пользователь не найден');
         }
 
@@ -83,16 +83,18 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+        //Проверка совпадения пароля
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        /*Успешная аутентификация*/
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
-        // redirect to some "app_homepage" route - of wherever you want
+        // Перенаправление пользователя на главную страницу
         return new RedirectResponse($this->urlGenerator->generate('homepage'));
     }
 

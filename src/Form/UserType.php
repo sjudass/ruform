@@ -15,25 +15,26 @@ use Symfony\Component\Form\CallbackTransformer;
 
 class UserType extends AbstractType
 {
+    /*Создание формы для регистрации пользователя*/
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, ['label' => 'Электронная почта'])
+            ->add('email', EmailType::class, ['label' => 'Электронная почта', 'attr' => ['class' => 'form-control']])
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'first_options' => array('label' => 'Пароль'),
-                'second_options' => array('label' => 'Повторите пароль'),
+                'first_options' => array('label' => 'Пароль', 'attr' => ['class' => 'form-control']),
+                'second_options' => array('label' => 'Повторите пароль', 'attr' => ['class' => 'form-control']),
             ))
-            ->add('lastname', TextType::class, ['label' => 'Фамилия'])
-            ->add('firstname', TextType::class, ['label' => 'Имя'])
-            ->add('middlename', TextType::class, ['label' => 'Отчество', 'required' => false])
+            ->add('lastname', TextType::class, ['label' => 'Фамилия', 'attr' => ['class' => 'form-control']])
+            ->add('firstname', TextType::class, ['label' => 'Имя', 'attr' => ['class' => 'form-control']])
+            ->add('middlename', TextType::class, ['label' => 'Отчество', 'attr' => ['class' => 'form-control'], 'required' => false])
             ->add('roles', ChoiceType::class,[
                 'choices' => [
                     'Администратор' => 'ROLE_ADMIN',
-                    'Старший менеджер' => 'ROLE_STMANAGER',
                     'Менеджер' => 'ROLE_MANAGER',
                     'Оператор' => 'ROLE_OPERATOR',
                 ],
+                'attr' => ['class' => 'form-control']
             ])
         ;
 
@@ -41,15 +42,16 @@ class UserType extends AbstractType
             ->addModelTransformer(new CallbackTransformer(
                 function ($rolesArray) {
                     // transform the array to a string
-                    return count($rolesArray)? $rolesArray[0]: null;
+                    return $rolesArray ? $rolesArray[0]: null;
                 },
                 function ($rolesString) {
                     // transform the string back to an array
                     return [$rolesString];
                 }
-            ));
+            ))
+        ;
     }
-
+    /*Создание настроек для формы регистрации*/
     public function configureOptions(OptionsResolver $resolver)
     {
         $roles = new User();

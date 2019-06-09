@@ -1,0 +1,60 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block title %}Список клиентов{% endblock %}
+
+{% block admin_menu %}
+    <div class="col-md-3 admin-menu">
+        <a href="/admin/clients">
+            <div class="list  active">
+                Список клиентов
+            </div>
+        </a>
+        <a href="/admin/applications">
+            <div class="list">
+                Управление заявками
+            </div>
+        </a>
+        <a href="/admin/users">
+            <div class="list">
+                Управление пользователями
+            </div>
+        </a>
+    </div>
+{% endblock %}
+
+{% block admin_content %}
+    <div class="table-content applications">
+        <h4>Список клиентов</h4>
+        <table class="table table-hover datatable">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th id="fio">ФИО</th>
+                <th id="email">Почта</th>
+                <th>Телефон</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for client in clients %}
+                <tr>
+                    <td>{{ client.id }}</td>
+                    <td class="fio">{{ client.lastname }} {{ client.firstname }} {{ client.middlename }}</td>
+                    <td class="email">{{ client.email }}</td>
+                    <td>{{ client.phone }}</td>
+                    <td>
+                        <a href="{{ path('client_show', {'id': client.id}) }}"><i class="fa fa-search"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Клиенты не найдены</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="export-stat">
+        <a href="{{ path('client_export') }}" class="btn btn-outline-primary">Экспорт данных</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'application/index.html.twig' %}
+{% block admin_content %}
+    <div class="table-content applications">
+        <h4>{{ user.lastname }} {{ user.firstname }} {{ user.middlename }}</h4>
+        <table class="table table-hover datatable">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th class="content">Тема обращения</th>
+                <th class="title">Услуга</th>
+                <th class="date">Cоздана</th>
+                <th>Статус</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for application in applications %}
+                <tr>
+                    <td>{{ application.id }}</td>
+                    <td class="content">{{ application.content }}</td>
+                    <td class="title">{{ application.title }}</td>
+                    <td>{{ application.getDateCreate()|date("d.m.Y")}}</td>
+                    <td>{{ application.status}}</td>
+                    <td>
+                        <a href="{{ path('application_show', {'id': application.id}) }}"><i class="fa fa-search"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Заявки не найдены</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ path('applications_index') }}" class="btn btn-outline-primary">К списку всех заявок</a>
+    <a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-outline-primary">Назад к сотруднику</a>
+{% endblock %}

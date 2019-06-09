@@ -1,0 +1,13 @@
+<div class="hide_scrollbar">
+    <div class="message_block" id="message_block"></div>
+</div>
+<hr>
+<form method="post" id="dialog_form" action="/dialog/{{ app.session.get('dialog')['id'][0].id }}">
+    <div class="dialog_post">
+        <input type="text" name="message" id="inputMessage" class="form-control" placeholder="Введите сообщение" required autofocus>
+        <button class="btn btn-outline-primary" id="sendMessage" type="submit">
+            <i class="fa fa-commenting-o"></i>
+        </button>
+    </div>
+</form>
+

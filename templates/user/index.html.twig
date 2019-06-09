@@ -1,45 +1,67 @@
+{% extends 'admin/index.html.twig' %}
 
+{% block title %}Управление пользователями{% endblock %}
 
-{% block title %}User index{% endblock %}
+{% block admin_menu %}
+    <div class="col-md-3 admin-menu">
+        <a href="/admin/users">
+            <div class="list active">
+                Управление пользователями
+            </div>
+        </a>
+        <a href="/admin/applications">
+            <div class="list">
+                Управление заявками
+            </div>
+        </a>
+        <a href="/admin/clients">
+            <div class="list">
+                Список клиентов
+            </div>
+        </a>
+    </div>
+{% endblock %}
 
-{% block body %}
-    <h1>User index</h1>
-
-    <table class="table">
-        <thead>
+{% block admin_content %}
+    <div class="table-content applications">
+        <h4>Список пользователей</h4>
+        <table class="table table-hover datatable">
+            <thead>
             <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Middlename</th>
-                <th>actions</th>
+                <th>№</th>
+                <th id="fio">ФИО</th>
+                <th id="email">Электронная почта</th>
+                <th>Роль</th>
+                <th></th>
             </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.middlename }}</td>
-                <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('user_new') }}">Create new</a>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.lastname }} {{ user.firstname }} {{ user.middlename }}</td>
+                    <td>{{ user.email }}</td>
+                    {% if (user.roles[0] == 'ROLE_ADMIN') %}
+                        <td>Администратор</td>
+                    {% elseif (user.roles[0] == 'ROLE_OPERATOR')%}
+                        <td>Оператор</td>
+                    {% elseif (user.roles[0] == 'ROLE_MANAGER')%}
+                        <td>Менеджер</td>
+                    {% elseif (user.roles[0] == 'ROLE_STMANAGER')%}
+                        <td>Старший менеджер</td>
+                    {% endif %}
+                    <td>
+                        <a href="{{ path('user_show', {'id': user.id}) }}"><i class="fa fa-search"></i></a>
+                        <a href="{{ path('user_edit', {'id': user.id}) }}"><i class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Пользователи не найдены</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ path('user_new') }}" class="btn btn-outline-primary">Добавить пользователя</a>
 {% endblock %}

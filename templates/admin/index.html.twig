@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Панель администратора{% endblock %}
+
+{% block content %}
+    {% block admin_menu %}
+        {% if is_granted('ROLE_ADMIN')  %}
+            <div class="col-md-3 admin-menu">
+                <a href="/admin/users">
+                    <div class="list">
+                        Управление пользователями
+                    </div>
+                </a>
+                <a href="/admin/applications">
+                    <div class="list">
+                        Управление заявками
+                    </div>
+                </a>
+                <a href="/admin/clients">
+                    <div class="list">
+                        Список клиентов
+                    </div>
+                </a>
+            </div>
+        {% elseif is_granted('ROLE_MANAGER') %}
+            <div class="col-md-3 admin-menu">
+                <a href="/admin/applications">
+                    <div class="list">
+                        Управление заявками
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+    {% endblock %}
+    {% block admin_context %}
+        <div class="col-md-9 admin-content">
+            {% block admin_content %}{% endblock %}
+        </div>
+    {% endblock %}
+{% endblock %}

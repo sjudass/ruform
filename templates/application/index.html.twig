@@ -1,0 +1,90 @@
+{% extends 'admin/index.html.twig' %}
+
+{% block title %}Управление заявками{% endblock %}
+
+{% block admin_menu %}
+    {% if is_granted('ROLE_ADMIN')  %}
+        <div class="col-md-3 admin-menu">
+            <a href="/admin/applications">
+                <div class="list active">
+                    Управление заявками
+                </div>
+            </a>
+            <a href="/admin/users">
+                <div class="list">
+                    Управление пользователями
+                </div>
+            </a>
+            <a href="/admin/clients">
+                <div class="list">
+                    Список клиентов
+                </div>
+            </a>
+        </div>
+    {% elseif is_granted('ROLE_MANAGER') %}
+        <div class="col-md-3 admin-menu">
+            <a href="/admin/applications">
+                <div class="list active">
+                    Управление заявками
+                </div>
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block admin_content %}
+    <div class="table-content applications">
+        <h4>Список заявок</h4>
+        <table class="table table-hover datatable">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th class>Услуга</th>
+                <th class>Cоздана</th>
+                <th>Статус</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for application in applications %}
+                <tr>
+                    <td>{{ application.id }}</td>
+                    <td class="title">{{ application.title }}</td>
+                    <td>{{ application.getDateCreate()|date("d.m.Y")}}</td>
+                    <td>{{ application.status}}</td>
+                    <td>
+                        <a href="{{ path('application_show', {'id': application.id}) }}"><i class="fa fa-search"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Заявки не найдены</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="export-stat">
+        <a href="{{ path('application_export') }}" class="btn btn-outline-primary">Экспорт данных</a>
+        <a href="" class="btn btn-outline-primary" id="stat_app">Статистика</a>
+    </div>
+{% endblock %}
+
+{% block modal %}
+    <div class="col-md-12 modal" id="chart_app">
+        <h1>Стастистика заявок</h1>
+        <div class="ct-chart ct-golden-section" id="chart">
+            <div class="col-apps">
+                <h5>Всего заявок</h5>
+                <h3 id="col-apps"></h3>
+            </div>
+            <div class="signatures">
+                <div id="entered"></div> <h6>Поступило</h6>
+                <div id="consideration"></div> <h6>На рассмотрении</h6>
+                <div id="queue"></div> <h6>В очереди</h6>
+                <div id="accepted"></div> <h6>Выполнено</h6>
+                <div id="rejected"></div> <h6>Отказано</h6>
+            </div>
+        </div>
+    </div>
+{% endblock %}

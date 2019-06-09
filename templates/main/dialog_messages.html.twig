@@ -1,0 +1,41 @@
+{% if app.user %}
+    {% if messages is defined %}
+        {% for message in messages %}
+            {% if (message.getIsOperator() == false) %}
+                <div class="client">
+                    {% if (message.getDialog().getAuthor() != null) %}
+                        <b class="client-info" title="Почта: {{ message.getDialog().getAuthor().getEmail() }}; Телефон: {{ message.getDialog().getAuthor().getPhone() }}">{{ message.getDialog().getAuthor().getLastname() }} {{ message.getDialog().getAuthor().getFirstname() }} {{ message.getDialog().getAuthor().getMiddlename()}}</b>
+                    {% else %}
+                        <b class="client-info">Пользователь удален</b>
+                    {% endif %}
+                    <p>{{ message.getMessageText() }}</p>
+                    <h6>{{ message.getMessageTime()|date("H:i")}}</h6>
+                </div>
+            {% else %}
+                <div class="operator">
+                    <b>Вы</b>
+                    <p>{{ message.getMessageText() }}</p>
+                    <h6>{{ message.getMessageTime()|date("H:i")}}</h6>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% else %}
+    {% if messages is defined %}
+        {% for message in messages %}
+            {% if (message.getIsOperator() == false) %}
+                <div class="client">
+                    <b>Вы</b>
+                    <p>{{ message.getMessageText() }}</p>
+                    <h6>{{ message.getMessageTime()|date("H:i")}}</h6>
+                </div>
+            {% else %}
+                <div class="operator">
+                    <b>Оператор</b>
+                    <p>{{ message.getMessageText() }}</p>
+                    <h6>{{ message.getMessageTime()|date("H:i")}}</h6>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endif %}

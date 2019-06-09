@@ -1,4 +1,38 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="show-table">
+    <table class="table table-hover">
+        <tbody>
+        <tr>
+            <th>{{ form_label(form.email) }}</th>
+            <td>{{ form_widget(form.email) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.lastname) }}</th>
+            <td>{{ form_widget(form.lastname) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.firstname) }}</th>
+            <td>{{ form_widget(form.firstname) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.middlename) }}</th>
+            <td>{{ form_widget(form.middlename) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.plainPassword.first) }}</th>
+            <td>{{ form_widget(form.plainPassword.first) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.plainPassword.second) }}</th>
+            <td>{{ form_widget(form.plainPassword.second) }}</td>
+        </tr>
+        <tr>
+            <th>Роль</th>
+            <td>{{ form_widget(form.roles) }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+    <button class="btn btn-outline-primary">{{ button_label|default('Сохранить') }}</button>
 {{ form_end(form) }}

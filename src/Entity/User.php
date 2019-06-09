@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -19,6 +21,11 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Dialog", mappedBy="operator")
+     */
+    private $dialogs;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -61,10 +68,24 @@ class User implements UserInterface
      */
     private $middlename;
 
-/*    public function __construct()
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Applications", mappedBy="user", cascade={"all"})
+     */
+    private $applications;
+
+    public function __construct()
     {
-        $this->roles = array('ROLE_OPERATOR');
-    }*/
+        $this->dialogs = new ArrayCollection();
+        $this->applications = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Dialog[]
+     */
+    public function getDialogs()
+    {
+        return $this->dialogs;
+    }
 
     public function getId()
     {
@@ -85,7 +106,6 @@ class User implements UserInterface
     {
         $this->email = $email;
     }
-
 
     /**
      * @see UserInterface
@@ -128,7 +148,6 @@ class User implements UserInterface
      */
     public function getSalt()
     {
-        // not needed when using the "bcrypt" algorithm in security.yaml
         return null;
     }
 
@@ -168,5 +187,13 @@ class User implements UserInterface
     public function setMiddlename($middlename)
     {
         $this->middlename = $middlename;
+    }
+
+    /**
+     * @return Collection|Applications[]
+     */
+    public function getApplications()
+    {
+        return $this->applications;
     }
 }

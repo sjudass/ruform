@@ -1,0 +1,64 @@
+{% extends 'application/index.html.twig' %}
+
+{% block title %}Заявка{% endblock %}
+
+{% block admin_content %}
+    <h3>Просмотр заявки № {{ application.id }}</h3>
+<form method="post" action="{{ path('application_edit', {'id':application.id}) }}">
+    <div class="show-table">
+        <table class="table table-hover">
+            <tbody>
+            <tr>
+                <th>Клиент</th>
+                <td><a href="{{ path('client_show', {'id': application.getClient().id }) }}">{{ application.getClient().lastname }} {{ application.getClient().firstname }} {{ application.getClient().middlename }}</a></td>
+            </tr>
+            <tr>
+                <th>Услуга</th>
+                <td>{{ application.title}}</td>
+            </tr>
+            <tr>
+                <th>Текст обращения</th>
+                <td>{{ application.content }}</td>
+            </tr>
+            <tr>
+                <th>Дата создания</th>
+                <td>{{ application.getDateCreate()|date("d.m.Y в H:i")}}</td>
+            </tr>
+            {% if (is_granted("ROLE_ADMIN")) and ( application.getDateProcess()) %}
+                <tr>
+                    <th>Дата обработки</th>
+                    <td>{{ application.getDateProcess()|date("d.m.Y в H:i")}}</td>
+                </tr>
+                <tr>
+                    <th>Исполнитель</th>
+                    <td><a href="{{ path('user_show', {'id': application.getUser().id }) }}">{{ application.getUser().lastname }} {{ application.getUser().firstname }} {{ application.getUser().middlename }}</a></td>
+                </tr>
+            {% endif %}
+            <tr>
+                <th>Статус</th>
+                <td>
+                    <select name="status" class="form-control" id="status">
+                        <option>На рассмотрении</option>
+                        <option>В очереди</option>
+                        <option>Выполнена</option>
+                        <option>Отказано</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Оповещение клиента</th>
+                <td>
+                    <div class="form-group contact-form">
+                        <textarea id="content" name="content" class="form-control" rows="5" placeholder="Данное сообщение будет отправлено клиенту на почту" required></textarea>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="show-buttons">
+        <a href="{{ path('applications_index') }}" class="btn btn-outline-primary">Назад к списку</a>
+        <button type="submit" class="btn btn-outline-primary">Сохранить</button>
+    </div>
+</form>
+{% endblock %}

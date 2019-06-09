@@ -1,0 +1,45 @@
+<div class="list">
+    {% if dialogs is defined %}
+        {% for dialog in dialogs %}
+            {% if current_dialog is defined %}
+                {% if (dialog.getId() == current_dialog.getId()) %}
+                    <a href="/consult/{{ dialog.getId() }}">
+                        <div class="dialog_id active">
+                            {% if (dialog.getAuthor() != null) %}
+                                <b>{{ dialog.getAuthor().getLastname() }} {{ dialog.getAuthor().getFirstname() }}</b>
+                            {% endif %}
+                            <nobr>{{ dialog.getTimeCreate()|date("H:i") }}</nobr><br>
+                            <div class="dialog_message">
+                                {{ dialog.getTitle() }}
+                            </div>
+                        </div>
+                    </a>
+                {% else %}
+                    <a href="/consult/{{ dialog.getId() }}">
+                        <div class="dialog_id">
+                            {% if (dialog.getAuthor() != null) %}
+                                <b>{{ dialog.getAuthor().getLastname() }} {{ dialog.getAuthor().getFirstname() }}</b>
+                            {% endif %}
+                            <nobr>{{ dialog.getTimeCreate()|date("H:i") }}</nobr><br>
+                            <div class="dialog_message">
+                                {{ dialog.getTitle() }}
+                            </div>
+                        </div>
+                    </a>
+                {% endif %}
+            {% else %}
+                <a href="/consult/{{ dialog.getId() }}">
+                    <div class="dialog_id">
+                        {% if (dialog.getAuthor() != null) %}
+                            <b>{{ dialog.getAuthor().getLastname() }} {{ dialog.getAuthor().getFirstname() }}</b>
+                        {% endif %}
+                        <nobr>{{ dialog.getTimeCreate()|date("H:i") }}</nobr><br>
+                        <div class="dialog_message">
+                            {{ dialog.getTitle() }}
+                        </div>
+                    </div>
+                </a>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
